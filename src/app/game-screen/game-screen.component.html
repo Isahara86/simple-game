@@ -1,0 +1,29 @@
+<div class="screen">
+
+  <div class="game-field">
+    <div *ngFor="let row of gameService.gameMap; let x = index" class="game-field__row">
+      <div *ngFor="let cell of row; let y = index"
+           (click)="gameService.handlePlayerAction(x, y, UNIT_STATUS.USER)"
+           class="game-field__cell"
+           [class.game-field__cell--red]="cell === UNIT_STATUS.PC"
+           [class.game-field__cell--green]="cell === UNIT_STATUS.USER"
+           [class.game-field__cell--yellow]="gameService.drawingUnit && gameService.drawingUnit.x === x && gameService.drawingUnit.y === y"></div>
+    </div>
+  </div>
+
+  <div class="new-game">
+    <input type="number"
+           class="new-game__input"
+           [(ngModel)]="roundIntervalInput"
+           placeholder="round time">
+
+    <button mat-raised-button
+            color="warn"
+            class="new-game__btn-start"
+            [disabled]="!roundIntervalInput"
+            (click)="startNewGame()">START</button>
+  </div>
+
+</div>
+
+<app-popup-game-result *ngIf="isShowPopup" (close)="closePopup()"></app-popup-game-result>
