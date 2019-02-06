@@ -18,7 +18,7 @@ You will see the game in the default browser
 
 **Content description**
 
-All game business logic contains in  src/app/common/service/game.service.ts
+All game business logic located into src/app/common/service/game.service.ts
 
 The module has unit tests src/app/common/service/game.service.spec.ts
 
