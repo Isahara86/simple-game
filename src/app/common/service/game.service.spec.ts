@@ -148,57 +148,63 @@ describe('calcXY', () => {
 
 });
 
+describe('update score', () => {
+  beforeEach(() => TestBed.configureTestingModule({}));
+  it('should properly update score', () => {
+    const service: GameService = TestBed.get(GameService);
+
+    service['updateScore' as any](UNIT_STATUS.USER);
+    service['updateScore' as any](UNIT_STATUS.USER);
+    service['updateScore' as any](UNIT_STATUS.PC);
+
+    expect(service.gameScore).toEqual({
+      winner: null,
+      userCount: 2,
+      pcCount: 1,
+    });
+  });
+});
+
 describe('checkWinner', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should return null', () => {
     const service: GameService = TestBed.get(GameService);
-    const testGameMap = [
-      [UNIT_STATUS.FREE, UNIT_STATUS.FREE],
-      [UNIT_STATUS.FREE, UNIT_STATUS.FREE],
-    ];
+    const gameScore = {
+      winner: null,
+      userCount: 1,
+      pcCount: 1,
+    };
 
     const winCount = 2;
 
-    expect(service['checkWinner' as any](testGameMap, winCount)).toEqual(null);
+    expect(service['checkWinner' as any](gameScore, winCount)).toEqual(null);
   });
 
-  it('should return null', () => {
+  it('should return PC', () => {
     const service: GameService = TestBed.get(GameService);
-    const testGameMap = [
-      [UNIT_STATUS.FREE, UNIT_STATUS.USER],
-      [UNIT_STATUS.FREE, UNIT_STATUS.PC],
-    ];
+    const gameScore = {
+      winner: null,
+      userCount: 1,
+      pcCount: 2,
+    };
 
     const winCount = 2;
 
-    expect(service['checkWinner' as any](testGameMap, winCount)).toEqual(null);
+    expect(service['checkWinner' as any](gameScore, winCount)).toEqual(UNIT_STATUS.PC);
   });
 
-  it('should return UNIT_STATUS.PC', () => {
+  it('should return USER', () => {
     const service: GameService = TestBed.get(GameService);
-    const testGameMap = [
-      [UNIT_STATUS.PC, UNIT_STATUS.USER],
-      [UNIT_STATUS.FREE, UNIT_STATUS.PC],
-      [UNIT_STATUS.FREE, UNIT_STATUS.PC],
-    ];
+    const gameScore = {
+      winner: null,
+      userCount: 2,
+      pcCount: 1,
+    };
 
-    const winCount = 3;
+    const winCount = 2;
 
-    expect(service['checkWinner' as any](testGameMap, winCount)).toEqual({ userCount: 1, pcCount: 3, winner: UNIT_STATUS.PC });
-  });
-
-  it('should return UNIT_STATUS.USER', () => {
-    const service: GameService = TestBed.get(GameService);
-    const testGameMap = [
-      [UNIT_STATUS.PC, UNIT_STATUS.USER],
-      [UNIT_STATUS.FREE, UNIT_STATUS.USER],
-      [UNIT_STATUS.FREE, UNIT_STATUS.USER],
-    ];
-
-    const winCount = 3;
-
-    expect(service['checkWinner' as any](testGameMap, winCount)).toEqual({ userCount: 3, pcCount: 1, winner: UNIT_STATUS.USER });
+    expect(service['checkWinner' as any](gameScore, winCount)).toEqual(UNIT_STATUS.USER);
   });
 });
 

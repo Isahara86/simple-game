@@ -19,6 +19,11 @@ export class GameService {
 
   constructor() {
     this.gameMap = this.createNewGameMap(10, 10);  // 10 x 10 according to the technical task
+    this.gameScore = {
+      winner: null,
+      userCount: 0,
+      pcCount: 0,
+    };
   }
 
   public createNewGame(options: { roundIntervalMS: number, xSize: number, ySize: number, winCount: number }) {
@@ -27,7 +32,11 @@ export class GameService {
     this.winCount = options.winCount;
 
     this.drawingUnit = null;
-    this.gameScore = null;
+    this.gameScore = {
+      winner: null,
+      userCount: 0,
+      pcCount: 0,
+    };
 
     this.startNewRound();
   }
@@ -61,14 +70,25 @@ export class GameService {
 
     this.gameMap[x][y] = player;
 
-    this.gameScore = this.checkWinner(this.gameMap, this.winCount);
+    this.updateScore(player);
 
-    if (this.gameScore) {
+    this.gameScore.winner = this.checkWinner(this.gameScore, this.winCount);
+
+    if (this.gameScore.winner) {
       this.gameEvents$.next(GAME_EVENT.GAME_FINISHED);
       return;
     }
 
     this.startNewRound();
+  }
+
+  private updateScore(player: UNIT_STATUS) {
+    if (player === UNIT_STATUS.USER) {
+      this.gameScore.userCount++;
+    }
+    if (player === UNIT_STATUS.PC) {
+      this.gameScore.pcCount++;
+    }
   }
 
 
@@ -102,37 +122,15 @@ export class GameService {
     return {x, y};
   }
 
-  private checkWinner(gameMap: UNIT_STATUS [] [], winCount: number): IGameScore {
-    let userCount = 0;
-    let pcCount = 0;
-
-    gameMap.forEach(col => {
-      col.forEach(unit => {
-        if (unit === UNIT_STATUS.USER) {
-          userCount++;
-        }
-        if (unit === UNIT_STATUS.PC) {
-          pcCount++;
-        }
-      });
-    });
-
-    if (userCount === winCount) {
-      return {userCount, pcCount, winner: UNIT_STATUS.USER};
+  private checkWinner(gameScore: IGameScore, winCount: number): UNIT_STATUS.USER | UNIT_STATUS.PC {
+    if (gameScore.userCount >= winCount) {
+      return UNIT_STATUS.USER;
     }
 
-    if (pcCount === winCount) {
-      return{userCount, pcCount, winner: UNIT_STATUS.PC};
+    if (gameScore.pcCount >= winCount) {
+      return UNIT_STATUS.PC;
     }
 
     return null;
-  }
-
-  public getScore() {
-
-  }
-
-  private _getScore(gameMap: UNIT_STATUS [] []) {
-
   }
 }

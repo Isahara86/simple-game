@@ -3,6 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {PopupGameResultComponent} from './popup-game-result.component';
 import {GameService} from '../common/service/game.service';
 import {IGameScore, UNIT_STATUS} from '../common/types/game';
+import {ScoreComponent} from '../score/score.component';
 
 describe('PopupGameResultComponent', () => {
   let component: PopupGameResultComponent;
@@ -11,7 +12,7 @@ describe('PopupGameResultComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PopupGameResultComponent],
+      declarations: [PopupGameResultComponent, ScoreComponent],
       providers: [
         {provide: GameService, useClass: MockGameService}
       ],

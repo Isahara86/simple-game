@@ -5,6 +5,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material';
 import {PopupGameResultComponent} from './popup-game-result/popup-game-result.component';
+import {ScoreComponent} from './score/score.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -13,6 +14,7 @@ describe('AppComponent', () => {
         AppComponent,
         GameScreenComponent,
         PopupGameResultComponent,
+        ScoreComponent
       ],
       imports: [
         FormsModule,

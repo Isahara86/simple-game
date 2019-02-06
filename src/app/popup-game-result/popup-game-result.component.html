@@ -3,14 +3,7 @@
     <p class="game-result__winner">GAME FINISHED, WINNER: {{gameService.gameScore.winner === UNIT_STATUS.USER ? 'USER' : 'PC'}}</p>
 
 
-    <div class="score">
-      <p class="score__label">SCORE</p>
-
-      <div class="score__results">
-        <p>USER: {{gameService.gameScore.userCount}}</p>
-        <p>PC: {{gameService.gameScore.pcCount}}</p>
-      </div>
-    </div>
+    <app-score></app-score>
 
     <button mat-raised-button
             (click)="close.emit()">Close</button>

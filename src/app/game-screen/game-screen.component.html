@@ -1,5 +1,7 @@
 <div class="screen">
 
+  <app-score></app-score>
+
   <div class="game-field">
     <div *ngFor="let row of gameService.gameMap; let x = index" class="game-field__row">
       <div *ngFor="let cell of row; let y = index"
